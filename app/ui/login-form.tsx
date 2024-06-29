@@ -33,7 +33,10 @@ export default function LoginForm() {
         setErrorMessage(result ?? null); // Ensure result is string or null
       }
     } catch (error: any) {
-      setErrorMessage(error.message || 'Something went wrong.');
+      setErrorMessage(
+        error.message ||
+          'Something went wrong. Please check your email or password',
+      );
     } finally {
       setIsPending(false);
     }
