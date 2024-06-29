@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { lusitana } from '@/app/ui/fonts';
 import {
   AtSymbolIcon,
@@ -8,17 +9,31 @@ import {
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './button';
-import { useActionState } from 'react';
 import { authenticate } from '@/app/lib/actions';
 
 export default function LoginForm() {
-  const [errorMessage, formAction, isPending] = useActionState(
-    authenticate,
-    undefined,
-  );
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isPending, setIsPending] = useState<boolean>(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsPending(true);
+    setErrorMessage(null);
+
+    const data = new FormData(e.target as HTMLFormElement);
+
+    try {
+      const result = await authenticate(undefined, data);
+      setErrorMessage(result ?? null); // Ensure result is string or null
+    } catch (error: any) {
+      setErrorMessage(error.message || 'Something went wrong.');
+    } finally {
+      setIsPending(false);
+    }
+  };
 
   return (
-    <form action={formAction} className="space-y-3">
+    <form onSubmit={handleSubmit} className="space-y-3">
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
         <h1 className={`${lusitana.className} mb-3 text-2xl`}>
           Please log in to continue.
@@ -64,9 +79,9 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
-        <button className="mt-4 w-full" aria-disabled={isPending}>
+        <Button className="mt-4 w-full" type="submit" disabled={isPending}>
           Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-        </button>
+        </Button>
         <div
           className="flex h-8 items-end space-x-1"
           aria-live="polite"
