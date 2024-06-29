@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation'; // Import useRouter from Next.js
 import { lusitana } from '@/app/ui/fonts';
 import {
   AtSymbolIcon,
@@ -14,6 +15,7 @@ import { authenticate } from '@/app/lib/actions';
 export default function LoginForm() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isPending, setIsPending] = useState<boolean>(false);
+  const router = useRouter(); // Initialize useRouter
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,7 +26,12 @@ export default function LoginForm() {
 
     try {
       const result = await authenticate(undefined, data);
-      setErrorMessage(result ?? null); // Ensure result is string or null
+      if (!result) {
+        // If authentication is successful, redirect to the desired page
+        router.push('/dashboard'); // Replace '/dashboard' with your desired route
+      } else {
+        setErrorMessage(result ?? null); // Ensure result is string or null
+      }
     } catch (error: any) {
       setErrorMessage(error.message || 'Something went wrong.');
     } finally {
@@ -96,13 +103,5 @@ export default function LoginForm() {
         </div>
       </div>
     </form>
-  );
-}
-
-function LoginButton() {
-  return (
-    <Button className="mt-4 w-full">
-      Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-    </Button>
   );
 }
