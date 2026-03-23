@@ -15,10 +15,10 @@
     "@types/node": "20.5.7",
     "@vercel/postgres": "^0.5.1",
     "autoprefixer": "10.4.15",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
-    "next": "15.0.0-rc.0",
-    "next-auth": "5.0.0-beta.19",
+    "next": "15.0.6",
+    "next-auth": "5.0.0-beta.30",
     "postcss": "8.4.31",
     "react": "19.0.0-rc-6230622a1a-20240610",
     "react-dom": "19.0.0-rc-6230622a1a-20240610",
@@ -29,11 +29,12 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^3.0.0",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.14",
     "@vercel/style-guide": "^5.2.0",
     "dotenv": "^16.4.5",
-    "eslint": "^8.57.0",
+    "eslint": "^10.1.0",
     "eslint-config-next": "15.0.0-rc.0",
     "eslint-config-prettier": "9.0.0",
     "prettier": "^3.3.2",
@@ -41,5 +42,19 @@
   },
   "engines": {
     "node": ">=18.17.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "minimatch": ">=9.0.7",
+      "tar": ">=7.5.11",
+      "glob": ">=10.5.0",
+      "ws": ">=8.17.1",
+      "micromatch": ">=4.0.8",
+      "flatted": ">=3.4.2",
+      "nanoid": ">=3.3.8",
+      "lodash": ">=4.17.23",
+      "@babel/helpers": ">=7.26.10",
+      "ajv": ">=6.14.0"
+    }
   }
 }
